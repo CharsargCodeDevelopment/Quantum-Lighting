@@ -1,18 +1,23 @@
 import numpy as np
 
 class BaseSDF:
-    def __init__(self, width, height):
+    def __init__(self,center=(10,0),r=5, width=100, height=100):
         self.width = width
         self.height = height
         self.sdf = np.full((height, width), np.inf)
-        self._computeFunction = self.Circle  # Default function
+        self.center = center
+        self._computeFunction = lambda x, y:self.Circle(x,y,center,r)  # Default function
+        self._computeFunction = self.Circle
+        self.radius = r
         #self.generate()
     
     def Circle(self, x, y, center=None, radius=None):
         if center is None:
-            center = (self.width // 2, self.height // 2)
+            #center = (self.width // 2, self.height // 2)
+            center = self.center
         if radius is None:
-            radius = min(self.width, self.height) // 4
+            #radius = min(self.width, self.height) // 4
+            radius = self.radius
         
         cx, cy = center
         # Return the computed distance for the circle
